@@ -112,8 +112,6 @@ basic_data = [
         "room": 60000,
         "bus ticket": 6000
 },
-{
-    "대전역까지 버스 비용 왕복": 3000,
     "대전역에서 광명역까지 기차 왕복": 42400,
     "광명역에서 인천공항까지 리무진 버스 왕복": 24000,
     "인천공항에서 취리히까지 항공편": 3998800,
@@ -239,7 +237,7 @@ basic_data = [
   "버스" : 3000,
   "srt" : 35200,
   "라이온즈 파크 파티플로우석 티켓" : 55000,
-  "대구 수성 더 아르코 호텔 라이온즈파크점" : 80000,
+  "대구 수성 더 아르코 호텔 라이온즈파크점" : 80000
 } 
 ]
 
@@ -266,22 +264,25 @@ basic_data = [
 
 # print(a)
 
-def extract_transport_values(basic_data):
+
+##
+def transport_fee(basic_data):
     transport_values = []
     
+
     # 리스트 안의 각 딕셔너리를 순회
     for item in basic_data:
         # 딕셔너리의 각 키와 값을 순회
         for key, value in item.items():
-            # "교통" 키가 있으면 값을 추가
-            if key == "교통비":
+            # "교통" 또는 "교통비" 키가 있으면 값을 추가
+            if key == "교통" or key == "교통비":
                 transport_values.append(value)
             # 값이 또 다른 딕셔너리일 경우 재귀적으로 호출
             elif isinstance(value, dict):
-                transport_values.extend(extract_transport_values([value]))
+                transport_values.extend(transport_fee([value]))
     
     return transport_values
 
 # 함수 호출
-transport_values = extract_transport_values(basic_data)
+transport_values = transport_fee(basic_data)
 print(transport_values)
